@@ -29,4 +29,8 @@ defmodule Homepage.Blog do
 
   @spec delete_post(integer) :: any
   def delete_post(id), do: Repo.delete(%Post{id: id})
+
+  def change_post(%Post{} = post) do
+    Post.changeset(post, %{})
+  end
 end

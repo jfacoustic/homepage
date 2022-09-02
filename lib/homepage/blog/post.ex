@@ -3,12 +3,6 @@ defmodule Homepage.Blog.Post do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @type t() :: %__MODULE__{
-          id: integer(),
-          title: String.t(),
-          content: String.t()
-        }
-
   schema "posts" do
     field :title, :string
     field :content, :string
@@ -16,7 +10,7 @@ defmodule Homepage.Blog.Post do
     timestamps()
   end
 
-  def changeset(%__MODULE__{} = post, attrs) do
+  def changeset(post, attrs) do
     post
     |> cast(attrs, [:title, :content])
     |> validate_required([:title, :content])

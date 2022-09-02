@@ -18,6 +18,7 @@ defmodule HomepageWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/posts", PostController, [:index, :show, :new, :create]
   end
 
   # Other scopes may use custom stacks.
