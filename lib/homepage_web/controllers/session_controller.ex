@@ -7,8 +7,14 @@ defmodule HomepageWeb.SessionController do
 
   def create(conn, %{"session" => %{"username" => username, "password" => password}}) do
     case Homepage.Account.authenticate(username, password) do
-      :ok -> conn |> HomepageWeb.Auth.login() |> put_flash(:info, "Logged in")
-      :unauthorized -> conn |> put_flash(:error, "Don't try to pwn me.")
+      :ok ->
+        conn
+        |> HomepageWeb.Auth.login()
+        |> put_flash(:info, "Logged in")
+        |> redirect(to: Routes.page_path(conn, :index))
+
+      :unauthorized ->
+        conn |> put_flash(:error, "Don't try to pwn me.") |> render("new.html")
     end
   end
 end
