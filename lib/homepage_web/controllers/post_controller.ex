@@ -3,6 +3,8 @@ defmodule HomepageWeb.PostController do
 
   alias Homepage.Blog
 
+  plug HomepageWeb.Protected when action in [:new, :create]
+
   def new(conn, _params) do
     changeset = Blog.change_post(%Blog.Post{})
     render(conn, "new.html", changeset: changeset)
