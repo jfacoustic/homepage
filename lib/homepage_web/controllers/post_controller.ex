@@ -15,4 +15,8 @@ defmodule HomepageWeb.PostController do
     |> put_flash(:info, "#{post.title} created")
     |> redirect(to: Routes.page_path(conn, :index))
   end
+
+  def index(conn, _params) do
+    render(conn, "index.html", posts: Blog.get_posts())
+  end
 end

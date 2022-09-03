@@ -1,10 +1,10 @@
 <%= for post <- @posts do %>
-  <div>
+  <article class="prose lg:prose-xl">
     <h1>
       <%= post.title %>
     </h1>
     <li>
       <%= get_post_preview(post) %>
     </li>
-  </div>
+  </article>
   <% end %>
