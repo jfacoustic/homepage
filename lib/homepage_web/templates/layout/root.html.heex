@@ -49,6 +49,12 @@
             Blog
           </a>
         </div>
+        <div class="lg:content-end block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
+          <%= if @authenticated do %>
+            <%= link "Log out" , to: Routes.session_path(@conn, :delete, 0), method: "delete" ,
+              class: "lg:content-end block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white" %>
+              <% end %>
+        </div>
       </div>
     </nav>
   </header>

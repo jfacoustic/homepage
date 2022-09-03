@@ -1,21 +1,25 @@
 defmodule HomepageWeb.Auth do
   import Plug.Conn
-  import Phoenix.Controller
-  alias HomepageWeb.Router.Helpers, as: Routes
   def init(opts), do: opts
 
   def call(conn, _opts) do
     if get_session(conn, :authenticated) do
       conn
+      |> assign(:authenticated, true)
     else
       conn
-      |> put_flash(:error, "Page not found")
-      |> redirect(to: Routes.page_path(conn, :index))
-      |> halt()
+      |> assign(:authenticated, false)
     end
   end
 
   def login(conn) do
-    put_session(conn, :authenticated, true)
+    conn
+    |> assign(:authenticated, true)
+    |> put_session(:authenticated, true)
+    |> configure_session(renew: true)
+  end
+
+  def logout(conn) do
+    configure_session(conn, drop: true)
   end
 end

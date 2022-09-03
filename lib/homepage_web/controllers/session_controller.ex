@@ -17,4 +17,10 @@ defmodule HomepageWeb.SessionController do
         conn |> put_flash(:error, "Don't try to pwn me.") |> render("new.html")
     end
   end
+
+  def delete(conn, _) do
+    conn
+    |> HomepageWeb.Auth.logout()
+    |> redirect(to: Routes.page_path(conn, :index))
+  end
 end
