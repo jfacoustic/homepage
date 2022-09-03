@@ -18,4 +18,15 @@ defmodule Homepage.Account do
   def get_user do
     Homepage.Repo.all(User) |> Enum.at(0)
   end
+
+  def authenticate(username, password) do
+    user = Repo.get_by!(User, username: username)
+
+    if user && Pbkdf2.verify_pass(password, user.password_hash) do
+      :ok
+    else
+      Pbkdf2.no_user_verify()
+      :unauthorized
+    end
+  end
 end
