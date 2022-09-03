@@ -51,7 +51,8 @@ defmodule Homepage.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
-      {:earmark, "~> 1.4"}
+      {:earmark, "~> 1.4"},
+      {:pbkdf2_elixir, "~> 2.0"}
     ]
   end
 
