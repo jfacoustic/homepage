@@ -20,7 +20,8 @@ defmodule HomepageWeb.Router do
 
     get "/", PageController, :index
     resources "/posts", PostController, [:index, :show, :new, :create]
-    resources "/sessions", SessionController, only: [:new, :create, :delete]
+    get "/login", SessionController, :new
+    resources "/sessions", SessionController, only: [:create, :delete]
   end
 
   # Other scopes may use custom stacks.
