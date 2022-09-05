@@ -11,13 +11,12 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js" )}></script>
     <script>
       function toggleMenuMobile() {
-        console.log("toggling")
         const menu = document.getElementById("main-menu");
-        if (menu.classList.contains("sm:hidden")) {
-          menu.classList.remove("sm:hidden")
+        if (menu.classList.contains("hidden")) {
+          menu.classList.remove("hidden")
           return;
         }
-        menu.classList.add("sm:hidden")
+        menu.classList.add("hidden")
       }
     </script>
 </head>
