@@ -1,8 +1,13 @@
-<%= for post <- @posts do %>
-  <article class="prose lg:prose-xl">
+<div class="prose">
+  <h1>Welcome!</h1>
+  <h3>My name is Josh Mathews. I'm a software engineer, musician, and adventurer.</h3>
+</div>
+
+<%= if @post != nil do %>
+  <article class="prose lg:prose-xl border border-teal-100 p-5 w-full">
     <h1>
-      <%= post.title %>
+      <%= @post.title %>
     </h1>
-    <%= get_post_preview(post) %>
+    <%= get_post_preview(@post) %>
   </article>
-  <% end %>
+<% end %>

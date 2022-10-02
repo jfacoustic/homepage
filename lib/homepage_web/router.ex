@@ -19,7 +19,7 @@ defmodule HomepageWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    resources "/posts", PostController, [:index, :show, :new, :create]
+    resources "/posts", PostController, [:index, :show, :new, :create, :delete]
     get "/login", SessionController, :new
     resources "/sessions", SessionController, only: [:create, :delete]
   end

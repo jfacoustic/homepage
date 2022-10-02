@@ -1,0 +1,9 @@
+<article class="prose lg:prose-xl p-5 w-full">
+  <h1>
+    <%= @post.title %>
+  </h1>
+  <%= if @authenticated do %>
+    <%= link "Delete post", to: Routes.post_path(@conn, :delete, @post.id), method: "delete" %>
+  <% end %>
+  <%= get_post_content(@post) %>
+</article>
