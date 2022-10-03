@@ -1,13 +1,11 @@
-<div class="prose">
-  <h1>Welcome!</h1>
-  <h3>My name is Josh Mathews. I'm a software engineer, musician, and adventurer.</h3>
+<div class="grid lg:grid-cols-4">
+  <div class="prose lg:col-span-3">
+    <h1 class="text-orange-300">Bienvenue!</h1>
+    <h3 class="text-white">My name's Josh. I'm a software engineer, musician, and adventurer.</h3>
+  </div>
+  <div class="border border-solid border-teal-200 p-5 col-span-1 h-80">
+    <h3 class="text-white">
+      Music Tour
+    </h3>
+  </div>
 </div>
-
-<%= if @post != nil do %>
-  <article class="prose lg:prose-xl border border-teal-100 p-5 w-full">
-    <h1>
-      <%= @post.title %>
-    </h1>
-    <%= get_post_preview(@post) %>
-  </article>
-<% end %>
