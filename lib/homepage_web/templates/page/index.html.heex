@@ -25,7 +25,7 @@
     <% end %>
     <%= for event <- @events do %>
       <div>
-        <%= link "#{event.location} at #{event.datetime}", to: event.link, class: "text-white" %>
+        <%= link "#{event.location} on #{event.datetime}", to: event.link, class: "text-white" %>
         <%= if @authenticated do %>
           <%= link "Delete event", to: Routes.event_path(@conn, :delete, event.id), method: "delete" %>
         <% end %>
