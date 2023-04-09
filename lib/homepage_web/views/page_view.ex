@@ -9,4 +9,7 @@ defmodule HomepageWeb.PageView do
       })
     )
   end
+
+  def get_events do
+  end
 end

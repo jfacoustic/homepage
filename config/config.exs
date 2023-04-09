@@ -17,6 +17,8 @@ config :homepage, HomepageWeb.Endpoint,
   pubsub_server: Homepage.PubSub,
   live_view: [signing_salt: "bkM7hCze"]
 
+config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

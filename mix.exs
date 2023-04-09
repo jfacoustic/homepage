@@ -52,7 +52,8 @@ defmodule Homepage.MixProject do
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:earmark, "~> 1.4"},
-      {:argon2_elixir, "~> 3.0"}
+      {:argon2_elixir, "~> 3.0"},
+      {:tzdata, "~> 1.1"}
     ]
   end
 
