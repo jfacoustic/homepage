@@ -7,7 +7,9 @@ defmodule HomepageWeb.EventController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, stuff) do
+  def create(conn, %{"event" => event_params}) do
+    {:ok, event} = Music.create_event(event_params)
+
     conn
     |> put_flash(:info, "created")
     |> redirect(to: Routes.page_path(conn, :index))
@@ -16,18 +18,12 @@ defmodule HomepageWeb.EventController do
   def delete(conn, %{"id" => raw_id}) do
     {id, _} = Integer.parse(raw_id)
 
-    if is_integer(id) do
-      event = Music.get_event(id)
+    event = Music.get_event(id)
 
-      Music.delete_event(id)
+    Music.delete_event(id)
 
-      conn
-      |> put_flash(:info, "#{event.location} deleted")
-      |> redirect(to: Routes.page_path(conn, :index))
-    else
-      conn
-      |> put_flash(:error, "Error deleting post.")
-      |> redirect(to: Routes.page_path(conn, :index))
-    end
+    conn
+    |> put_flash(:info, "#{event.location} deleted")
+    |> redirect(to: Routes.page_path(conn, :index))
   end
 end

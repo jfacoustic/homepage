@@ -13,8 +13,6 @@ defmodule HomepageWeb.PostController do
   def create(conn, %{"post" => post_params}) do
     {:ok, post} = Blog.create_post(post_params)
 
-    require IEx
-
     conn
     |> put_flash(:info, "#{post.title} created")
     |> redirect(to: Routes.page_path(conn, :index))
