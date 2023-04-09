@@ -14,7 +14,6 @@ defmodule HomepageWeb.PostController do
     {:ok, post} = Blog.create_post(post_params)
 
     require IEx
-    IEx.pry()
 
     conn
     |> put_flash(:info, "#{post.title} created")

@@ -8,28 +8,26 @@ defmodule HomepageWeb.EventController do
   end
 
   def create(conn, stuff) do
-    require IEx
-    IEx.pry()
-
     conn
     |> put_flash(:info, "created")
+    |> redirect(to: Routes.page_path(conn, :index))
   end
 
   def delete(conn, %{"id" => raw_id}) do
     {id, _} = Integer.parse(raw_id)
 
     if is_integer(id) do
-      post = Blog.get_post(id)
+      event = Music.get_event(id)
 
-      Blog.delete_post(id)
+      Music.delete_event(id)
 
       conn
-      |> put_flash(:info, "#{post.title} deleted")
-      |> redirect(to: Routes.post_path(conn, :index))
+      |> put_flash(:info, "#{event.location} deleted")
+      |> redirect(to: Routes.page_path(conn, :index))
     else
       conn
       |> put_flash(:error, "Error deleting post.")
-      |> redirect(to: Routes.post_path(conn, :index))
+      |> redirect(to: Routes.page_path(conn, :index))
     end
   end
 end
