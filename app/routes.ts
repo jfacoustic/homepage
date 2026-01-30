@@ -8,5 +8,5 @@ export default [
     route("posts", "routes/protected/posts.tsx"),
     route("management", "routes/protected/management.tsx"),
   ]),
-  route("posts", "routes/posts.tsx"),
+  route("blog", "routes/blog.tsx"),
 ] satisfies RouteConfig;

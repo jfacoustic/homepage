@@ -5,10 +5,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  type LoaderFunctionArgs,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { validateSession } from "./lib/auth";
+import UiShell from "./components/ui-shell";
 
 export const links: Route.LinksFunction = () => [
   {
@@ -37,9 +40,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
     </html>
   );
 }
+export async function loader({ request, context }: LoaderFunctionArgs) {
+  const sessionId = request.headers
+    .get("Cookie")
+    ?.match(/session=([^;]+)/)?.[1];
+  if (!sessionId) return { isAdmin: false };
 
-export default function App() {
-  return <Outlet />;
+  const user = await validateSession(sessionId, context.cloudflare.env);
+
+  return { isAdmin: !!user };
+}
+
+export default function App({ loaderData }: Route.ComponentProps) {
+  return <UiShell isAdmin={loaderData.isAdmin} />;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
