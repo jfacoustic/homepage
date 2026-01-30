@@ -1,16 +1,16 @@
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import TextArea from "~/components/form/text-area";
 import TextInput from "~/components/form/text-input";
 import { fetchDb } from "~/db";
 import { type Post, posts } from "~/db/schema";
-import type { Route } from "./+types/posts";
 
-export async function loader({ context }: Route.LoaderArgs) {
+export async function loader({ context }: LoaderFunctionArgs) {
   const db = fetchDb(context.cloudflare.env.DB);
   const allPosts = await db.select().from(posts).orderBy(posts.createdAt);
   return { posts: allPosts };
 }
 
-export async function action({ request, context }: Route.ActionArgs) {
+export async function action({ request, context }: ActionFunctionArgs) {
   const db = fetchDb(context.cloudflare.env.DB);
   const formData = await request.formData();
   const intent = formData.get("intent");
@@ -27,12 +27,16 @@ export async function action({ request, context }: Route.ActionArgs) {
   return null;
 }
 
-export default function Posts({ loaderData }: Route.ComponentProps) {
+export default function AdminPosts({
+  loaderData,
+}: {
+  loaderData: { posts: Post[] };
+}) {
   const { posts } = loaderData;
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-8">Posts</h1>
+      <h1 className="text-3xl font-bold mb-8">Manage Posts</h1>
 
       <form method="post" className="mb-8 bg-gray-50 p-6 rounded-lg">
         <input type="hidden" name="intent" value="create" />

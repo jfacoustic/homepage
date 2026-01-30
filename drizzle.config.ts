@@ -1,6 +1,6 @@
-import { defineConfig } from "drizzle-kit";
 import { existsSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
+import { defineConfig } from "drizzle-kit";
 
 const envName =
   process.env.npm_lifecycle_event?.endsWith(":remote") ||
@@ -16,25 +16,25 @@ function getLocalDatabaseFile(): string {
     throw new Error(
       `Local D1 database directory not found: ${d1Dir}\n` +
         `Make sure to run this command first to initialize the local database:\n\n` +
-        `pnpm wrangler d1 execute jfacoustic-db --local --command "SELECT 1"`,
+        `pnpm wrangler d1 execute jfacoustic-db --local --command "SELECT 1"`
     );
   }
 
   const sqliteFiles = readdirSync(d1Dir).filter((file) =>
-    file.endsWith(".sqlite"),
+    file.endsWith(".sqlite")
   );
 
   if (sqliteFiles.length === 0) {
     throw new Error(
       `No SQLite database files found in: ${d1Dir}\n` +
         `Make sure to run this command first to create the local database:\n\n` +
-        `pnpm wrangler d1 execute jfacoustic-db --local --command "SELECT 1"`,
+        `pnpm wrangler d1 execute jfacoustic-db --local --command "SELECT 1"`
     );
   }
 
   if (sqliteFiles.length > 1) {
     console.warn(
-      `Multiple SQLite files found: ${sqliteFiles.join(", ")}. Using: ${sqliteFiles[0]}`,
+      `Multiple SQLite files found: ${sqliteFiles.join(", ")}. Using: ${sqliteFiles[0]}`
     );
   }
 
@@ -45,7 +45,7 @@ function requireEnv(key: string): string {
   const value = process.env[key];
   if (!value) {
     throw new Error(
-      `${key} environment variable is required for remote database access`,
+      `${key} environment variable is required for remote database access`
     );
   }
   return value;

@@ -7,4 +7,3 @@ export function fetchDb(db: D1Database) {
 
 export type DB = ReturnType<typeof fetchDb>;
 export { schema };
-
