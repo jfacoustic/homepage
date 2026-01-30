@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "react-router";
-import { Outlet, redirect } from "react-router";
+import { Link, Outlet, redirect } from "react-router";
 import { validateSession } from "~/lib/auth";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
@@ -29,12 +29,15 @@ export default function ProtectedLayout() {
               Admin Dashboard
             </h1>
             <nav className="flex space-x-4">
-              <a href="/posts" className="text-gray-600 hover:text-gray-900">
+              <Link
+                to="/admin/posts"
+                className="text-gray-600 hover:text-gray-900"
+              >
                 Edit Posts
-              </a>
-              <a href="/logout" className="text-red-600 hover:text-red-800">
+              </Link>
+              <Link to="/logout" className="text-red-600 hover:text-red-800">
                 Logout
-              </a>
+              </Link>
             </nav>
           </div>
         </div>

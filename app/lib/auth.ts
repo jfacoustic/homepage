@@ -1,8 +1,8 @@
 import { scryptAsync } from "@noble/hashes/scrypt.js";
 import { bytesToHex, utf8ToBytes } from "@noble/hashes/utils.js";
 import { eq } from "drizzle-orm";
-import { fetchDb, schema } from "../db";
 import { redirect } from "react-router";
+import { fetchDb, schema } from "../db";
 
 const { sessions } = schema;
 
