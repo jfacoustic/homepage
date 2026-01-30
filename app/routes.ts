@@ -6,6 +6,7 @@ export default [
   route("logout", "routes/auth/logout.tsx"),
   route("admin", "routes/protected/protected.tsx", [
     route("posts", "routes/protected/posts.tsx"),
+    route("management", "routes/protected/management.tsx"),
   ]),
   route("posts", "routes/posts.tsx"),
 ] satisfies RouteConfig;
