@@ -15,9 +15,15 @@
     "check:fix": "biome check --write .",
     "postinstall": "npm run cf-typegen",
     "preview": "pnpm run build && vite preview",
-    "typecheck": "npm run cf-typegen && react-router typegen && tsc -b"
+    "typecheck": "npm run cf-typegen && react-router typegen && tsc -b",
+    "db:generate": "drizzle-kit generate",
+    "db:apply-local": "wrangler d1 migrations apply jfacoustic-db --local",
+    "db:apply-remote": "wrangler d1 migrations apply jfacoustic-db --remote",
+    "db:studio": "drizzle-kit studio",
+    "db:reset-local": "wrangler d1 execute jfacoustic-db --local --command \"DROP TABLE IF EXISTS posts\" && npm run db:apply-local"
   },
   "dependencies": {
+    "drizzle-orm": "^0.45.1",
     "isbot": "^5.1.31",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -28,9 +34,11 @@
     "@cloudflare/vite-plugin": "^1.13.5",
     "@react-router/dev": "^7.10.0",
     "@tailwindcss/vite": "^4.1.13",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^22",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
+    "drizzle-kit": "^0.31.8",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2",
     "vite": "^7.1.7",

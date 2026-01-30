@@ -12,7 +12,14 @@
   },
   "observability": {
     "enabled": true
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "jfacoustic-db",
+      "database_id": "514137bc-8a51-4eab-835c-5dadf3c579ec"
+    }
+  ]
   /**
    * Smart Placement
    * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement

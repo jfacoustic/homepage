@@ -9,6 +9,11 @@ declare module "react-router" {
   }
 }
 
+interface Env {
+  DB: D1Database;
+  VALUE_FROM_CLOUDFLARE: string;
+}
+
 const requestHandler = createRequestHandler(
   () => import("virtual:react-router/server-build"),
   import.meta.env.MODE
