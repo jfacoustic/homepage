@@ -1,0 +1,91 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.13/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!**/build",
+      "!**/dist",
+      "!**/node_modules",
+      "!**/*.min.js",
+      "!**/*.min.css"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "lineEnding": "lf",
+    "attributePosition": "auto"
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "noExcessiveCognitiveComplexity": "warn",
+        "noExtraBooleanCast": "error"
+      },
+      "correctness": {
+        "noUnusedVariables": "error",
+        "useExhaustiveDependencies": "warn"
+      },
+      "style": {
+        "noNonNullAssertion": "warn",
+        "useImportType": "error",
+        "useConsistentArrayType": "error"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "warn",
+        "noConsole": {
+          "level": "warn",
+          "options": {
+            "allow": ["log"]
+          }
+        }
+      },
+      "nursery": {
+        "useSortedClasses": "off"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "es5",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSameLine": false,
+      "bracketSpacing": true,
+      "attributePosition": "auto"
+    }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true
+    },
+    "linter": {
+      "enabled": true
+    },
+    "parser": {
+      "allowWrongLineComments": false,
+      "cssModules": false,
+      "tailwindDirectives": true
+    }
+  }
+}

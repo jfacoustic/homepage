@@ -14,6 +14,12 @@ This is a modern React Router v7 application designed for edge deployment with s
 ```bash
 # Development
 pnpm run dev                    # Start dev server with HMR
+pnpm run lint                   # Run Biome linter
+pnpm run lint:fix               # Fix linting issues automatically
+pnpm run format                 # Format code with Biome
+pnpm run format:fix             # Format and fix code
+pnpm run check                  # Run all Biome checks
+pnpm run check:fix              # Fix all Biome issues
 pnpm run typecheck              # Type checking + Cloudflare types
 
 # Production
