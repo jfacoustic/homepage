@@ -13,9 +13,9 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 
   const user = await validateSession(sessionId, context.cloudflare.env);
   if (!user) {
-    return clearSessionCookie();
+    return clearSessionCookie("/");
   }
 
   await deleteSession(sessionId, context.cloudflare.env);
-  return clearSessionCookie();
+  return clearSessionCookie("/");
 }

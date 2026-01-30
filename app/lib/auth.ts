@@ -2,6 +2,7 @@ import { scryptAsync } from "@noble/hashes/scrypt.js";
 import { bytesToHex, utf8ToBytes } from "@noble/hashes/utils.js";
 import { eq } from "drizzle-orm";
 import { fetchDb, schema } from "../db";
+import { redirect } from "react-router";
 
 const { sessions } = schema;
 
@@ -15,40 +16,43 @@ export async function verifyPassword(
   storedHash: string
 ): Promise<boolean> {
   // Parse stored hash: $scrypt$salt$hash
-  const parts = storedHash.split('$');
-  if (parts.length !== 4 || parts[1] !== 'scrypt') {
+  const parts = storedHash.split("$");
+  if (parts.length !== 4 || parts[1] !== "scrypt") {
     return false;
   }
-  
+
   const [, , salt, hash] = parts;
-  
+
   // Re-compute hash with same parameters
   const derivedKey = await scryptAsync(password, salt, {
     N: 16384, // CPU/memory cost
-    r: 8,     // Block size
-    p: 1,     // Parallelization factor
-    dkLen: 32  // Output length
+    r: 8, // Block size
+    p: 1, // Parallelization factor
+    dkLen: 32, // Output length
   });
-  
+
   const computedHash = bytesToHex(derivedKey);
   return computedHash === hash;
 }
 
 export async function hashPassword(password: string): Promise<string> {
   const salt = bytesToHex(crypto.getRandomValues(new Uint8Array(16)));
-  
+
   const derivedKey = await scryptAsync(password, salt, {
     N: 16384, // CPU/memory cost
-    r: 8,     // Block size
-    p: 1,     // Parallelization factor
-    dkLen: 32  // Output length
+    r: 8, // Block size
+    p: 1, // Parallelization factor
+    dkLen: 32, // Output length
   });
-  
+
   const hash = bytesToHex(derivedKey);
   return `$scrypt$${salt}$${hash}`;
 }
 
-export async function createSession(userId: string, env: { DB: D1Database }): Promise<string> {
+export async function createSession(
+  userId: string,
+  env: { DB: D1Database }
+): Promise<string> {
   const sessionId = crypto.randomUUID();
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
 
@@ -130,22 +134,15 @@ export function setSessionCookie(sessionId: string): Response {
     "Set-Cookie",
     `session=${sessionId}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=604800`
   );
-
-  return new Response("Login successful", {
-    status: 200,
-    headers,
-  });
+  return redirect("/admin/posts", { headers });
 }
 
-export function clearSessionCookie(): Response {
+export function clearSessionCookie(redirectUrl: string): Response {
   const headers = new Headers();
   headers.append(
     "Set-Cookie",
     "session=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0"
   );
 
-  return new Response("Logout successful", {
-    status: 200,
-    headers,
-  });
+  return redirect(redirectUrl);
 }
