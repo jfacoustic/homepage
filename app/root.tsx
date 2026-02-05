@@ -2,7 +2,6 @@ import {
   isRouteErrorResponse,
   Links,
   Meta,
-  Outlet,
   Scripts,
   ScrollRestoration,
   type LoaderFunctionArgs,
@@ -46,9 +45,12 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
     ?.match(/session=([^;]+)/)?.[1];
   if (!sessionId) return { isAdmin: false };
 
-  const user = await validateSession(sessionId, context.cloudflare.env);
+  const authenticated = await validateSession(
+    sessionId,
+    context.cloudflare.env
+  );
 
-  return { isAdmin: !!user };
+  return { isAdmin: authenticated };
 }
 
 export default function App({ loaderData }: Route.ComponentProps) {

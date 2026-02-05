@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "react-router";
-import { Link, Outlet, redirect } from "react-router";
+import { Outlet, redirect } from "react-router";
 import { validateSession } from "~/lib/auth";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
@@ -11,12 +11,15 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
     return redirect("/login");
   }
 
-  const user = await validateSession(sessionId, context.cloudflare.env);
-  if (!user) {
+  const authenticated = await validateSession(
+    sessionId,
+    context.cloudflare.env
+  );
+  if (!authenticated) {
     return redirect("/login");
   }
 
-  return { user };
+  return {};
 }
 
 export default function ProtectedLayout() {

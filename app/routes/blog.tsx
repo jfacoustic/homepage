@@ -1,6 +1,6 @@
 import { fetchDb } from "~/db";
 import { type Post, posts } from "~/db/schema";
-import type { Route } from "./+types/posts";
+import type { Route } from "./+types/blog";
 
 export async function loader({ context }: Route.LoaderArgs) {
   const db = fetchDb(context.cloudflare.env.DB);

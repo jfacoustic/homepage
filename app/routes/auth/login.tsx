@@ -23,7 +23,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
     return { error: "Invalid credentials" };
   }
 
-  const sessionId = await createSession("admin", context.cloudflare.env);
+  const sessionId = await createSession(context.cloudflare.env);
   return setSessionCookie(sessionId);
 }
 

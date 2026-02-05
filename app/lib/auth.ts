@@ -1,15 +1,10 @@
 import { scryptAsync } from "@noble/hashes/scrypt.js";
-import { bytesToHex, utf8ToBytes } from "@noble/hashes/utils.js";
+import { bytesToHex } from "@noble/hashes/utils.js";
 import { eq } from "drizzle-orm";
 import { redirect } from "react-router";
 import { fetchDb, schema } from "../db";
 
 const { sessions } = schema;
-
-export interface AuthUser {
-  id: string;
-  username: string;
-}
 
 export async function verifyPassword(
   password: string,
@@ -49,17 +44,13 @@ export async function hashPassword(password: string): Promise<string> {
   return `$scrypt$${salt}$${hash}`;
 }
 
-export async function createSession(
-  userId: string,
-  env: { DB: D1Database }
-): Promise<string> {
+export async function createSession(env: { DB: D1Database }): Promise<string> {
   const sessionId = crypto.randomUUID();
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
 
   const db = fetchDb(env.DB);
   await db.insert(sessions).values({
     id: sessionId,
-    userId,
     expiresAt,
   });
 
@@ -69,8 +60,8 @@ export async function createSession(
 export async function validateSession(
   sessionId: string,
   env: { DB: D1Database }
-): Promise<AuthUser | null> {
-  if (!sessionId) return null;
+): Promise<boolean> {
+  if (!sessionId) return false;
 
   const db = fetchDb(env.DB);
   const session = await db
@@ -79,18 +70,14 @@ export async function validateSession(
     .where(eq(sessions.id, sessionId))
     .limit(1);
 
-  if (!session.length) return null;
+  if (!session.length) return false;
 
   const sessionData = session[0];
   if (new Date(sessionData.expiresAt) < new Date()) {
     await db.delete(sessions).where(eq(sessions.id, sessionId));
-    return null;
+    return false;
   }
-
-  return {
-    id: sessionData.userId,
-    username: "admin", // Since we only have one user
-  };
+  return true;
 }
 
 export async function deleteSession(
@@ -104,28 +91,26 @@ export async function deleteSession(
 export async function requireAuth(
   request: Request,
   env: { DB: D1Database }
-): Promise<{ user: AuthUser; response?: Response }> {
+): Promise<{ authenticated: boolean; response?: Response }> {
   const sessionId = request.headers
     .get("Cookie")
     ?.match(/session=([^;]+)/)?.[1];
 
   if (!sessionId) {
     return {
-      user: {} as AuthUser,
+      authenticated: false,
       response: new Response("Unauthorized", { status: 401 }),
     };
   }
 
-  const user = await validateSession(sessionId, env);
+  const authenticated = await validateSession(sessionId, env);
 
-  if (!user) {
-    return {
-      user: {} as AuthUser,
-      response: new Response("Unauthorized", { status: 401 }),
-    };
-  }
-
-  return { user };
+  return {
+    authenticated,
+    response: authenticated
+      ? undefined
+      : new Response("Unauthorized", { status: 401 }),
+  };
 }
 
 export function setSessionCookie(sessionId: string): Response {
