@@ -1,10 +1,10 @@
-import { useState } from "react";
 import type { ActionFunctionArgs } from "react-router";
 import TextInput from "~/components/form/text-input";
-import { hashPassword } from "~/lib/auth";
+import { hashPassword, requireAuth } from "~/lib/auth";
 import type { Route } from "./+types/management";
 
-export async function action({ request }: ActionFunctionArgs) {
+export async function action({ request, context }: ActionFunctionArgs) {
+  await requireAuth(request, context.cloudflare.env);
   const formData = await request.formData();
   const password = formData.get("password");
 

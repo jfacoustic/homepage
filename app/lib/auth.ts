@@ -91,26 +91,20 @@ export async function deleteSession(
 export async function requireAuth(
   request: Request,
   env: { DB: D1Database }
-): Promise<{ authenticated: boolean; response?: Response }> {
+): Promise<void> {
   const sessionId = request.headers
     .get("Cookie")
     ?.match(/session=([^;]+)/)?.[1];
 
   if (!sessionId) {
-    return {
-      authenticated: false,
-      response: new Response("Unauthorized", { status: 401 }),
-    };
+    throw new Response("Unauthorized", { status: 401 });
   }
 
   const authenticated = await validateSession(sessionId, env);
 
-  return {
-    authenticated,
-    response: authenticated
-      ? undefined
-      : new Response("Unauthorized", { status: 401 }),
-  };
+  if (!authenticated) {
+    throw new Response("Unauthorized", { status: 401 });
+  }
 }
 
 export function setSessionCookie(sessionId: string): Response {

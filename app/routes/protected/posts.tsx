@@ -3,6 +3,7 @@ import TextArea from "~/components/form/text-area";
 import TextInput from "~/components/form/text-input";
 import { fetchDb } from "~/db";
 import { type Post, posts } from "~/db/schema";
+import { requireAuth } from "~/lib/auth";
 
 export async function loader({ context }: LoaderFunctionArgs) {
   const db = fetchDb(context.cloudflare.env.DB);
@@ -11,6 +12,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
 }
 
 export async function action({ request, context }: ActionFunctionArgs) {
+  await requireAuth(request, context.cloudflare.env);
   const db = fetchDb(context.cloudflare.env.DB);
   const formData = await request.formData();
   const intent = formData.get("intent");

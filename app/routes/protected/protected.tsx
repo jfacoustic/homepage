@@ -1,24 +1,13 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { Outlet, redirect } from "react-router";
-import { validateSession } from "~/lib/auth";
+import { requireAuth } from "~/lib/auth";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
-  const sessionId = request.headers
-    .get("Cookie")
-    ?.match(/session=([^;]+)/)?.[1];
-
-  if (!sessionId) {
+  try {
+    await requireAuth(request, context.cloudflare.env);
+  } catch (_) {
     return redirect("/login");
   }
-
-  const authenticated = await validateSession(
-    sessionId,
-    context.cloudflare.env
-  );
-  if (!authenticated) {
-    return redirect("/login");
-  }
-
   return {};
 }
 
