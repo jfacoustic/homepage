@@ -1,79 +1,50 @@
-# Welcome to React Router!
+# JFAcoustic Homepage
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Personal blog written with React Router Framework deployed on Cloudflare Pages
 
-## Features
-
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
-
-## Getting Started
-
-### Installation
-
-Install the dependencies:
+## Commands
 
 ```bash
-npm install
+pnpm install # install deps
+pnpm run dev # run local dev environment
+pnpm run db:generate #generate new migration
+pnpm run db:apply-local # apply local migrations
+pnpm run db:apply-remote # apply production migrations
 ```
 
-### Development
+## AI Philosophy
 
-Start the development server with HMR:
+This is not an AI-first project.  Some features will be implemented by hand, others will offload implementation to an agent
 
-```bash
-npm run dev
+- Commit all code before allowing changes
+- Any agentic work begins in plan mode
+- Break down suggested plan into the smallest possible changes without breaking compilation
+- Review every line of code changed before committing.  
+- If generated code is insufficient, revert changes and give the agent one more chance.
+- Agents only get two chances to get things right.  This prevents rabbit-holes and frustration
+- If generated code is adequate, add a commit message marking that the code was AI-generated, then refactor changes by hand if necessary
+
+### AI Commit Template:
+
+```
+[Summary]
+
+Prompt: [Prompt]
+Model: [Model]
+[Reason  AI was chosen]
+
+[Additional Details or Notes]
 ```
 
-Your application will be available at `http://localhost:5173`.
+### Manual Commit Template:
 
-## Previewing the Production Build
+```
+[Summary]
 
-Preview the production build locally:
-
-```bash
-npm run preview
+[Reason Commit was By Hand]
+[Additional Details or Notes]
 ```
 
-## Building for Production
+My goal is to track how much I used AI in my workflow and how it impacted performance and code quality.  Metrics will likely evolve over time.
 
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-Deployment is done using the Wrangler CLI.
-
-To build and deploy directly to production:
-
-```sh
-npm run deploy
-```
-
-To deploy a preview URL:
-
-```sh
-npx wrangler versions upload
-```
-
-You can then promote a version to production after verification or roll it out progressively.
-
-```sh
-npx wrangler versions deploy
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+The above methodology was adopted after [this commit](https://github.com/jfacoustic/homepage/commit/d2b897bcf477a6732045782e8bceefc98040bb57).
