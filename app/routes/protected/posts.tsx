@@ -32,7 +32,6 @@ export default function AdminPosts({
 }: {
   loaderData: { posts: Post[] };
 }) {
-  console.log("hello?");
   const { posts } = loaderData;
 
   return (
