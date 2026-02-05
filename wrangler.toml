@@ -1,0 +1,9 @@
+name = "jfacoustic-homepage"
+main = "workers/app.ts"
+compatibility_date = "2023-08-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "jfacoustic-db"
+database_id = "514137bc-8a51-4eab-835c-5dadf3c579ec"

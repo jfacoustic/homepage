@@ -29,9 +29,64 @@ pnpm run preview                # Preview production build locally
 
 # Cloudflare
 pnpm run cf-typegen             # Generate Cloudflare type definitions
+
+# Database (D1 + Drizzle ORM)
+pnpm run db:generate           # Generate migration files from schema
+pnpm run db:apply-local        # Apply migrations to local database
+pnpm run db:apply-remote       # Apply migrations to remote database
+pnpm run db:studio             # Open Drizzle Studio (local mode)
+pnpm run db:reset-local        # Reset local database and reapply migrations
 ```
 
 **Note**: No test framework configured. Add testing commands when implementing tests.
+
+## Cloudflare D1 Integration
+
+This project uses Cloudflare D1 as the primary database with Drizzle ORM for type-safe database operations.
+
+### Database Schema
+- **Location**: `app/db/schema.ts`
+- **Migrations**: `migrations/` directory
+- **ORM**: Drizzle ORM with SQLite dialect
+
+### Local Development
+- Local database stored in `.wrangler/state/v3/d1/miniflare-D1DatabaseObject/`
+- Migrations apply automatically to local environment
+- Data persists between dev server restarts
+
+### Database Commands
+```bash
+# Create new migration after schema changes
+pnpm run db:generate
+
+# Apply migrations locally (development)
+pnpm run db:apply-local
+
+# Apply migrations to production
+pnpm run db:apply-remote
+
+# Reset local database (development only)
+pnpm run db:reset-local
+
+# Open Drizzle Studio for local database inspection
+pnpm run db:studio
+```
+
+### Environment Variables (Remote Database)
+For remote database operations, set these environment variables:
+- `CLOUDFLARE_ACCOUNT_ID`: Your Cloudflare account ID
+- `CLOUDFLARE_DATABASE_ID`: Your D1 database ID
+- `CLOUDFLARE_D1_TOKEN`: API token with D1 permissions
+
+### Database Usage in Routes
+```typescript
+// Access database in loader/action functions
+export async function loader({ context }: Route.LoaderArgs) {
+  const db = createDB(context.cloudflare.env.DB);
+  const data = await db.select().from(posts);
+  return { data };
+}
+```
 
 ## Small Web Development Standards
 

@@ -2,24 +2,23 @@ import {
   isRouteErrorResponse,
   Links,
   Meta,
-  Outlet,
   Scripts,
   ScrollRestoration,
+  type LoaderFunctionArgs,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { validateSession } from "./lib/auth";
+import UiShell from "./components/ui-shell";
 
 export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
+    rel: "preload",
+    href: "/fonts/inter/Inter-Regular.woff2",
+    as: "font",
+    type: "font/woff2",
     crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
 
@@ -40,9 +39,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
     </html>
   );
 }
+export async function loader({ request, context }: LoaderFunctionArgs) {
+  const sessionId = request.headers
+    .get("Cookie")
+    ?.match(/session=([^;]+)/)?.[1];
+  if (!sessionId) return { isAdmin: false };
 
-export default function App() {
-  return <Outlet />;
+  const authenticated = await validateSession(
+    sessionId,
+    context.cloudflare.env
+  );
+
+  return { isAdmin: authenticated };
+}
+
+export default function App({ loaderData }: Route.ComponentProps) {
+  return <UiShell isAdmin={loaderData.isAdmin} />;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
