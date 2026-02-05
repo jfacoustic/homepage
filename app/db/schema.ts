@@ -14,7 +14,6 @@ export const posts = sqliteTable("posts", {
 
 export const sessions = sqliteTable("sessions", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull(),
   expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
 });
 
