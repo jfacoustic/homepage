@@ -3,11 +3,6 @@ main = "workers/app.ts"
 compatibility_date = "2023-08-01"
 compatibility_flags = ["nodejs_compat"]
 
-[vars]
-VALUE_FROM_CLOUDFLARE = "Hello from Cloudflare"
-ADMIN_USERNAME = "admin"
-ADMIN_PASSWORD_HASH = "$scrypt$4a5b6c7d8e9f0123456789abcdef1234$a8b4da5d7d774520bb55dc06963f309b4894968573aa3c5358573fad0a33363a"
-
 [[d1_databases]]
 binding = "DB"
 database_name = "jfacoustic-db"
